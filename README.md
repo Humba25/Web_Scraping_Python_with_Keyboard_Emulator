@@ -17,7 +17,6 @@ Before running the script, install the following Python packages:
 pip install keyboard
 pip install pykeepass
 
-Note: You may need administrator privileges to use keyboard on some systems.
 
  KeePass Integration
 This script expects access to a KeePass database for secure password retrieval.
