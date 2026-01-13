@@ -1,4 +1,4 @@
-#Passwort
+#Password.py
 
 """"
 The password for Keypass must be placed here.  

@@ -18,7 +18,7 @@ def web_scraping(timeout=None):
     print(f"Verwendeter Tag = {tag}")
     print("Daten werden geholt")
 
-    kp = PyKeePass(r'C:\Users\mikad\Desktop\Archiv\ITEcke\Code\CPSZT\Passwörter.kdbx', password=Password) # Here the file path to the KeePass database must be specified 
+    kp = PyKeePass(r'', password=Password) # Here the file path to the KeePass database must be specified 
 
     entry = kp.find_entries(title=tag, first=True)   
 
@@ -26,8 +26,8 @@ def web_scraping(timeout=None):
 # Fields are read from the KeePass entry here. If you store additional fields in KeePass 
 # (for example Description or URL), create a variable and assign it from the entry, e.g. `URL = entry.url`.
 
-    Benutzername = entry.username  
-    Web_Passwort = entry.password
+    Username = entry.username  
+    Web_Password = entry.password
     URL = entry.url
 
 
@@ -55,9 +55,8 @@ def web_scraping(timeout=None):
         if name:
             form_data[name] = value
 
-    form_data['username'] = Benutzername
-    form_data['password'] = Web_Passwort
-
+    form_data['username'] = Username
+    form_data['password'] = Web_Password
 
 
 
@@ -69,49 +68,34 @@ def web_scraping(timeout=None):
 
     soup = BeautifulSoup(r.text, 'html.parser')
 
-    if soup.find(id='logout') is not None:
+    if soup.find(id='logout') is not None or Username in r.text:
         print('Logged in successfully')
     else:
         print('failed')
 
-    if Benutzername in r.text:
-        print("Logged in successfully, name found")
-    else:
-        print("failed")
 
+    # --- Web scraping section (generic structure) ---
 
+    response = s.get(URL, verify=False)
+    page_soup = BeautifulSoup(response.text, 'html.parser')
 
+    # Select the elements you want to scrape.
+    # Example: rows in a table, div blocks, list items, etc.
+    elements = page_soup.select('YOUR_CSS_SELECTOR_HERE')
 
-#Ab hier sucht das Script etwas auf der seite um zu verifizieren das er wirklich auf der seite ist
+    for element in elements:
+        # Extract sub-elements inside each element
+        sub_elements = element.find_all('YOUR_HTML_TAG_HERE')
 
+        # Basic safety check
+        if not sub_elements:
+            continue
 
-    response = requests.get(URL, verify=False)
+        # Example: extract text from the first or second cell
+        extracted_value = sub_elements[0].get_text(strip=True)
 
-
-    Note = BeautifulSoup(response.text, 'html.parser')
- 
-    zeilen = soup.select('# Replace the selector with the structure youre looking for (e.g., table rows, divs, spans)')[1:]
-
-    for zeile in zeilen:
-        zellen = zeile.find_all('# Adjust this if youre targeting different HTML structures — for example, <th> for headers or <div> for custom layouts.')
-        if len(zellen) >= 2 and len(zellen) != None:
-            #Name of this variable could be the thing you are Searching for = zellen[1].text.strip()
-            if # Name of the Variable you definded in 100 must stand here:
-
-                print(f"Note Gefunden: {# Name of the Variable you definded in 100 must stand here}")
-
-jetzt = datetime.now()
-Jetzt_Stunde = jetzt.hour
-
-
-
-# Enables looped execution with a 60s timeout — useful for continuous scraping (e.g., weather data). Can be removed for single-run use.
-
-
-while 5 <= Jetzt_Stunde or 21>= Jetzt_Stunde:
-    web_scraping()
-    print("In 60 sekunden wird es erneut gestartet")
-    time.sleep(60)
-
+        # Do something with the extracted value
+        # (store it, compare it, print it, return it, etc.)
+        print(extracted_value)
 
 
