@@ -6,4 +6,4 @@ While this isn't necessarily more secure than embedding it directly in the Web_S
 it was moved here to avoid exposing it in that context.
 """
 
-Passwort = "123"
+Password = "123"

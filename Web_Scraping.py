@@ -1,7 +1,7 @@
 import requests
 import time
 from bs4 import BeautifulSoup
-from Passwort import Passwort
+from Passwort import Password
 from pykeepass import PyKeePass
 import Reading_Keyboard as Reading_Keyboard
 from datetime import datetime
@@ -18,7 +18,7 @@ def web_scraping(timeout=None):
     print(f"Verwendeter Tag = {tag}")
     print("Daten werden geholt")
 
-    kp = PyKeePass(r'C:\Users\mikad\Desktop\Archiv\IT Ecke\Code\CPSZT\Passwörter.kdbx', password=Passwort) # Here the file path to the KeePass database must be specified 
+    kp = PyKeePass(r'C:\Users\mikad\Desktop\Archiv\ITEcke\Code\CPSZT\Passwörter.kdbx', password=Password) # Here the file path to the KeePass database must be specified 
 
     entry = kp.find_entries(title=tag, first=True)   
 
@@ -28,16 +28,14 @@ def web_scraping(timeout=None):
 
     Benutzername = entry.username  
     Web_Passwort = entry.password
+    URL = entry.url
 
 
 
-# URL placeholder for target site
-# Here the URL of the target site must be specified unless you retrieve it from the KeePass entry beforehand (e.g., url = entry.url).
-# Concise alternative
-# Specify the target URL here, or assign it from the KeePass entry (e.g., url = entry.url).
-# 
 
-    URL  = ''
+# URL  = ''              Here the URL of the target site must be specified unless you retrieve it from the KeePass entry beforehand (e.g., url = entry.url).
+
+   
 
 
 # This part of the script collects all input fields present on the page.
