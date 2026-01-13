@@ -18,7 +18,7 @@ def web_scraping(timeout=None):
     print(f"Verwendeter Tag = {tag}")
     print("Daten werden geholt")
 
-    kp = PyKeePass(r' # Here the file path to the KeePass database must be specified ', password=Passwort)
+    kp = PyKeePass(r'C:\Users\mikad\Desktop\Archiv\IT Ecke\Code\CPSZT\Passwörter.kdbx', password=Passwort) # Here the file path to the KeePass database must be specified 
 
     entry = kp.find_entries(title=tag, first=True)   
 
